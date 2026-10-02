@@ -1,0 +1,11 @@
+Catalogo de produtos para venda:
+
+catalogo - como se fosse o restaurante
+
+avaliacao - como se fosse avaliacoes do restaurantes
+
+Item de cálogo (classe mãe) - como se fosse item cardápio
+– Camisas (Filho): 
+– Calças (Filho): 
+– Acessórios (Filho): 
+– Tênis (Filho): 
