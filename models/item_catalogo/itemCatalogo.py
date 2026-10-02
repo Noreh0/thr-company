@@ -1,9 +1,10 @@
 from models.item_catalogo.avaliacao import Avaliacao
 class ItemCatalogo():
-    def __init__(self, nome, preco, descricao):
+    def __init__(self, nome, preco, descricao, tipo):
         self.nome = nome
         self.preco = preco
         self.descricao = descricao
+        self.tipo = tipo
         self._avaliacao = []
 
     def __str__(self):
