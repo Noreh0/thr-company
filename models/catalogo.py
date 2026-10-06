@@ -9,4 +9,8 @@ class Catalogo:
             self._roupas.append(item)
         else:
             return "O item não é uma roupa ou acessório!"
+    def listar_roupas(self):
+        for i,roupa in enumerate(self._roupas, start=1):
+            print (f"{i}-{roupa.nome} \n R${roupa.preco}\n")
+
     
