@@ -23,5 +23,9 @@ def criar_usuario(usuario):
         """, (usuario.nome, usuario.email, usuario._senha_hash)
     )
     conexao.commit()
+    id_resultado = cursor.lastrowid
     conexao.close()
+
+    usuario.id = id_resultado
+    return id_resultado
 

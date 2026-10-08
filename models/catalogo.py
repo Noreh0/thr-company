@@ -8,16 +8,14 @@ from models.item_catalogo.tenis import Tenis
 class Catalogo:
     def __init__(self):
         self._roupas = []
-
-    def adicionar_roupa(self, item):
+    def adicionar_produto(self, item):
         if isinstance(item, ItemCatalogo):
             self._roupas.append(item)
         else:
             return "O item não é uma roupa ou acessório!"
-    def listar_roupas(self):
+    def listar_produtos(self):
         for i,roupa in enumerate(self._roupas, start=1):
             print (f"{i}-{roupa.nome}\nR${roupa.preco}\n==================\n")
-
     def listar_info_produtos(self, item):
         if isinstance(item, Tenis):
             print (f"{item.nome} - {item.preco} - {item.descricao} - {item.tipo_sola} - {item.categoria}")

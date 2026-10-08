@@ -12,9 +12,9 @@ camisa1 = Camisas("Nike Air T-shirt", 159.99, "Camisa com caracteristica única 
 
 catalogo = Catalogo()
 
-Catalogo.adicionar_roupa(catalogo, tenis_bape01)
-Catalogo.adicionar_roupa(catalogo, camisa1)
-# catalogo.listar_roupas()
+Catalogo.adicionar_produto(catalogo, tenis_bape01)
+Catalogo.adicionar_produto(catalogo, camisa1)
+catalogo.listar_produtos()
 
 catalogo.listar_info_produtos(tenis_bape01)
 catalogo.listar_info_produtos(camisa1)
