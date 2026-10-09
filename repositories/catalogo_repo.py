@@ -14,3 +14,15 @@ def tabela_catalogo():
     conexao.close(
         
     )
+
+def adicionar_item_ao_catalogo(item):
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute(
+        """
+            INSERT INTO catalogo(id_produto) VALUES (%s)
+        """,
+        (item.id,)
+    )
+    conexao.commit()
+    conexao.close()

@@ -52,11 +52,52 @@ def criar_produto(id_catalogo, produto):
     cursor = conexao.cursor()
     cursor.execute(
         """
-            INSERT INTO item_catalogo(nome, preco, descricao, categoria, id_catalogo, tipo_sola, tipo_manga, tipo_modelagem, tipo_gola, material)
+            INSERT INTO item_catalogo(nome, preco, descricao, categoria, id_catalogo, tipo_sola, tipo_manga, tipo_modelagem, tipo_gola, material) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (produto.nome, produto.preco, produto.descricao, categoria, id_catalogo, tipo_sola, tipo_manga, tipo_modelagem, tipo_gola, material),
     )
     conexao.commit()
     conexao.close()
 
 def listar_itens_catalogos():
-    pass
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute(
+        """
+            SELECT * FROM item_catalogo
+        """
+    )
+    resultado = cursor.fetchall()
+    conexao.close()
+    itens_encontrados = []
+    for item in resultado:
+        itens_encontrados.append(item)
+    return itens_encontrados
+
+def listar_categoria(categoria):
+    if categoria == 'acessorio':
+        categoria_search = 'acessorio'
+    elif categoria == 'blusas':
+        categoria_search = 'blusas'
+    elif categoria == 'calcas':
+        categoria_search = 'calcas'
+    elif categoria == 'camisas':
+        categoria_search = 'camisas'
+    elif categoria == 'tenis':
+        categoria_search = 'tenis'
+    else:
+        return f"Categoria não encontrada"
+
+    conexao = conectar()
+    cursor = conexao.cursor()
+    cursor.execute(
+        """
+            SELECT * FROM item_catalogo WHERE categoria = %s
+        """,
+        (categoria_search,)
+    )
+    resultado = cursor.fetchall()
+    conexao.close()
+    itens_econtrados = []
+    for item in resultado:
+        itens_econtrados.append(item)
+    return itens_econtrados

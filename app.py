@@ -6,15 +6,7 @@ from models.item_catalogo.tenis import Tenis
 
 from models.catalogo import Catalogo
 
+from flask import Flask
 
-tenis_bape01 = Tenis("Bape Sneaker", 799.99, "Tenis branco da bape", "Tenis", "plataforma")
-camisa1 = Camisas("Nike Air T-shirt", 159.99, "Camisa com caracteristica única de núvens", "Camisas", "Quadrada")
+app = Flask()
 
-catalogo = Catalogo()
-
-Catalogo.adicionar_produto(catalogo, tenis_bape01)
-Catalogo.adicionar_produto(catalogo, camisa1)
-catalogo.listar_produtos()
-
-catalogo.listar_info_produtos(tenis_bape01)
-catalogo.listar_info_produtos(camisa1)
