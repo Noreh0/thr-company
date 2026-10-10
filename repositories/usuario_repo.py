@@ -6,11 +6,13 @@ def tabela_usuario():
     cursor = conexao.cursor()
     cursor.execute(
         """
-            CREATE TABLE IF NOT EXISTS usuario(
-                id INT AUTO_INCREMENT PRYMARY KEY,
+            CREATE TABLE IF NOT EXISTS usuarios(
+                id INT AUTO_INCREMENT PRIMARY KEY,
                 nome VARCHAR(100) NOT NULL,
                 email VARCHAR(255) NOT NULL,
-                senha_hash VARCHAR(255) NOT NULL
+                telefone VARCHAR(20) NOT NULL,
+                senha_hash VARCHAR(255) NOT NULL,
+                is_admin BOOLEAN NOT NULL DEFAULT FALSE
             )
         """
     )
@@ -20,8 +22,8 @@ def criar_usuario(usuario):
     cursor = conexao.cursor()
     cursor.execute(
         """
-            INSERT INTO usuarios VALUES (%s, %s, %s)
-        """, (usuario.nome, usuario.email, usuario._senha_hash)
+            INSERT INTO usuarios(nome, email, telefone, senha_hash, is_admin) VALUES (%s, %s, %s, %s, %s)
+        """, (usuario.nome, usuario.email, usuario.telefone, usuario._senha_hash, False)
     )
     conexao.commit()
     id_resultado = cursor.lastrowid
@@ -35,14 +37,14 @@ def verificar_email(email):
     cursor = conexao.cursor()
     cursor.execute(
         """
-            SELECT * FROM usuario WHERE email = %s
+            SELECT id, nome, email, telefone, senha_hash, is_admin FROM usuario WHERE email = %s
         """, (email,)
     )
-    resultado = cursor.fetchone
+    resultado = cursor.fetchone()
     conexao.close()
     if resultado == None:
         return f"Usuário não encontrado!"
-    id_resultado, nome_resultado, email_resultado, senha_hash = resultado
-    usuario = Usuario(nome_resultado, email_resultado, senha_hash)
+    id_resultado, nome_resultado, email_resultado, telefone_resultado, senha_hash, is_admin = resultado
+    usuario = Usuario(nome_resultado, email_resultado, telefone_resultado, senha_hash, is_admin=bool(is_admin))
     usuario.id = id_resultado
     return usuario
