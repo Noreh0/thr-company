@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.1/ref/settings/
 """
 
+from django.conf.global_settings import AUTH_USER_MODEL
 from pathlib import Path
 import os
 from dotenv import load_dotenv
@@ -43,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'produtos',
     'usuarios',
+    'carrinho',
+    'pedidos'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +88,7 @@ DATABASES = {
     }
 }
 
-
+AUTH_USER_MODEL = 'usuarios.Usuario'
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
 
@@ -116,6 +119,7 @@ USE_I18N = True
 
 USE_TZ = True
 
+WHATSAPP_LOJA = str(os.getenv(('WHATS_NUM')))
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
