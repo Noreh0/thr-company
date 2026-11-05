@@ -1,16 +1,41 @@
-{% load static %}
+{% extends 'base.html' %}
+{% block titulo %}THR Company - Roupas, tênis e acessórios{% endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    <h1>THZ Company</h1>
-    <p>Loja de roupas</p>
-    <a href="produtos.html">Produtos</a>
-</body>
-</html>
+{% block conteudo %}
+<section class="hero">
+    <h1 class="hero__marca">THR</h1>
+    <div class="hero__linha">
+        <p class="hero__texto">Roupas, tênis e acessórios. Monte o carrinho e finalize a compra pelo WhatsApp.</p>
+        <a class="botao" href="{% url 'produtos:lista' %}">Ver todos os produtos</a>
+    </div>
+</section>
+
+{% if categorias %}
+<section class="secao">
+    <h2 class="sr-only">Categorias</h2>
+    <ul class="categorias">
+        {% for categoria in categorias %}
+        <li><a class="chip" href="{% url 'produtos:lista' %}?categoria={{ categoria.slug }}">{{ categoria.nome }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}
+
+<section class="secao">
+    <div class="secao__cabeca">
+        <h2>Novidades</h2>
+    </div>
+    {% if novidades %}
+    <ul class="grade">
+        {% for produto in novidades %}{% include 'produtos/_card.html' %}{% endfor %}
+    </ul>
+    {% else %}
+    <div class="vazio">
+        <p>Ainda não há produtos cadastrados.</p>
+        {% if user.is_staff %}<a class="botao" href="{% url 'admin:produtos_produto_add' %}">Cadastrar o primeiro
+            produto</a>{% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

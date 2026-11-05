@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#090909">
+    <title>{% block titulo %}THR Company{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+    <header class="topo">
+        <div class="topo__barra">
+            <a class="logo" href="{% url 'produtos:home' %}" aria-label="THR Company - início">
+                <span class="logo__nome">THR</span>
+                <span class="logo__sub">COMPANY</span>
+            </a>
+            <nav class="nav" aria-label="Navegação principal">
+                <a href="{% url 'produtos:lista' %}">Coleção</a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'pedidos:meus' %}">Meus pedidos</a>
+                {% if user.is_staff %}<a href="{% url 'admin:index' %}">Painel</a>{% endif %}
+                <form method="post" action="{% url 'usuarios:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Sair</button>
+                </form>
+                {% else %}
+                <a href="{% url 'usuarios:login' %}">Entrar</a>
+                {% endif %}
+                <a class="nav__carrinho" href="{% url 'carrinho:ver' %}">
+                    Carrinho
+                    {% if carrinho_qtd %}<span class="contador" aria-label="{{ carrinho_qtd }} item(ns) no carrinho">{{
+                        carrinho_qtd }}</span>{% endif %}
+                </a>
+            </nav>
+        </div>
+    </header>
+
+    {% if messages %}
+    <ul class="mensagens" role="status" aria-live="polite">
+        {% for mensagem in messages %}
+        <li class="mensagem mensagem--{{ mensagem.level_tag }}">{{ mensagem }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <main id="conteudo-principal">{% block conteudo %}{% endblock %}</main>
+
+    <footer class="rodape">
+        <div class="rodape__interno">
+            <div class="rodape__marca">
+                <strong>THR COMPANY</strong>
+                <span>ESSENTIAL STREETWEAR</span>
+            </div>
+            <a href="https://wa.me/{{ whatsapp_loja }}" target="_blank" rel="noopener">Falar com a loja no WhatsApp
+                <span aria-hidden="true">↗</span></a>
+            <span class="rodape__copy">© {% now "Y" %} THR Company</span>
+        </div>
+    </footer>
+
+    <script>
+        (() => {
+            const header = document.querySelector('.topo');
+            if (!header) return;
+
+            const atualizarCabecalho = () => {
+                header.classList.toggle('topo--rolagem', window.scrollY > 24);
+            };
+
+            atualizarCabecalho();
+            window.addEventListener('scroll', atualizarCabecalho, { passive: true });
+        })();
+    </script>
+</body>
+
+</html>

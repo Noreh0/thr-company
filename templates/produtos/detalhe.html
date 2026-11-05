@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block titulo %}{{ produto.nome }} - THR Company{% endblock %}
+
+{% block conteudo %}
+<p class="migalhas">
+    <a href="{% url 'produtos:lista' %}">Produtos</a> /
+    <a href="{% url 'produtos:lista' %}?categoria={{ produto.categoria.slug }}">{{ produto.categoria.nome }}</a>
+</p>
+
+<article class="detalhe">
+    <div class="detalhe__foto">
+        {% if produto.imagem %}
+        <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}">
+        {% else %}
+        <div class="sem-foto" aria-hidden="true">{{ produto.categoria.nome }}</div>
+        {% endif %}
+    </div>
+
+    <div>
+        <h1>{{ produto.nome }}</h1>
+        <p class="detalhe__preco">R$ {{ produto.preco|floatformat:"2g" }}</p>
+        <p class="detalhe__descricao">{{ produto.descricao }}</p>
+
+        {% if disponivel %}
+        <form method="post" action="{% url 'carrinho:adicionar' %}">
+            {% csrf_token %}
+            <fieldset class="tamanhos">
+                <legend>Tamanho</legend>
+                <div class="tamanhos__lista">
+                    {% for v in variacoes %}
+                    <label class="tamanho">
+                        <input type="radio" name="variacao" value="{{ v.id }}" required {% if v.estoque <=0 %}disabled{%
+                            endif %}>
+                        <span>{{ v.tamanho }}{% if v.cor %} {{ v.cor }}{% endif %}<span class="sr-only">{% if v.estoque
+                                <= 0 %} (esgotado){% endif %}</span></span>
+                    </label>
+                    {% endfor %}
+                </div>
+            </fieldset>
+
+            <div class="campo-qtd">
+                <label for="quantidade">Quantidade</label>
+                <input type="number" id="quantidade" name="quantidade" value="1" min="1" max="20">
+            </div>
+
+            <button class="botao botao--cheio" type="submit">Adicionar ao carrinho</button>
+        </form>
+        {% else %}
+        <p><strong>Produto esgotado.</strong> Chame a loja no WhatsApp para saber quando volta.</p>
+        <a class="botao botao--contorno" href="https://wa.me/{{ whatsapp_loja }}" target="_blank" rel="noopener">Falar
+            com a loja</a>
+        {% endif %}
+    </div>
+</article>
+{% endblock %}

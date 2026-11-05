@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block titulo %}Entrar - THR Company{% endblock %}
+
+{% block conteudo %}
+<div class="pagina caixa">
+    <h1>Entrar</h1>
+    <p class="explicacao">Você só precisa de conta para finalizar uma compra. O catálogo é aberto a todos.</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% if form.non_field_errors %}
+        <div class="erro-geral" role="alert">{{ form.non_field_errors.0 }}</div>
+        {% endif %}
+        <div class="campo">
+            <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+            <input type="text" name="username" id="{{ form.username.id_for_label }}"
+                value="{{ form.username.value|default:'' }}" autocomplete="username" autofocus required>
+        </div>
+        <div class="campo">
+            <label for="{{ form.password.id_for_label }}">{{ form.password.label }}</label>
+            <input type="password" name="password" id="{{ form.password.id_for_label }}" autocomplete="current-password"
+                required>
+        </div>
+        <button class="botao botao--cheio" type="submit">Entrar</button>
+    </form>
+
+    <p class="troca">Ainda não tem conta? <a
+            href="{% url 'usuarios:cadastro' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Criar conta</a></p>
+</div>
+{% endblock %}

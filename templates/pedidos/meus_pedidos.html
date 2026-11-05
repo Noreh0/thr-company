@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block titulo %}Meus pedidos - THR Company{% endblock %}
+
+{% block conteudo %}
+<div class="pagina">
+    <h1>Meus pedidos</h1>
+
+    {% for pedido in pedidos %}
+    <article class="pedido">
+        <div class="pedido__topo">
+            <h2>Pedido #{{ pedido.id }}</h2>
+            <span class="selo">{{ pedido.get_status_display }}</span>
+        </div>
+        <p class="item-detalhe">Feito em {{ pedido.criado_em|date:"d/m/Y \à\s H:i" }}</p>
+        <ul class="pedido__itens">
+            {% for item in pedido.itens.all %}
+            <li>{{ item.quantidade }}x {{ item.nome }} (tamanho {{ item.tamanho }}) - R$ {{
+                item.preco_unitario|floatformat:"2g" }}</li>
+            {% endfor %}
+        </ul>
+        <div class="pedido__rodape">
+            <strong>Total: R$ {{ pedido.total|floatformat:"2g" }}</strong>
+            {% if pedido.link_whatsapp %}
+            <a class="botao botao--whatsapp" href="{{ pedido.link_whatsapp }}" target="_blank" rel="noopener">Enviar de
+                novo pelo WhatsApp</a>
+            {% endif %}
+        </div>
+    </article>
+    {% empty %}
+    <div class="vazio">
+        <p>Você ainda não fez nenhum pedido.</p>
+        <a class="botao" href="{% url 'produtos:lista' %}">Ver produtos</a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

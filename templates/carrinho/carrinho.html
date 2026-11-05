@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block titulo %}Carrinho - THR Company{% endblock %}
+
+{% block conteudo %}
+<div class="pagina">
+    <h1>Carrinho</h1>
+
+    {% if linhas %}
+    <table class="tabela-itens">
+        <thead>
+            <tr>
+                <th scope="col">Produto</th>
+                <th scope="col">Quantidade</th>
+                <th scope="col" class="num">Subtotal</th>
+                <th scope="col"><span class="sr-only">Remover</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for linha in linhas %}
+            <tr>
+                <td>
+                    <a class="item-nome" href="{% url 'produtos:detalhe' linha.produto.slug %}">{{ linha.produto.nome
+                        }}</a>
+                    <span class="item-detalhe">Tamanho {{ linha.variacao.tamanho }}, R$ {{
+                        linha.produto.preco|floatformat:"2g" }} cada</span>
+                </td>
+                <td>
+                    <form class="form-qtd" method="post" action="{% url 'carrinho:atualizar' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="variacao" value="{{ linha.variacao.id }}">
+                        <label class="sr-only" for="qtd-{{ linha.variacao.id }}">Quantidade de {{ linha.produto.nome
+                            }}</label>
+                        <input type="number" id="qtd-{{ linha.variacao.id }}" name="quantidade"
+                            value="{{ linha.quantidade }}" min="1" max="{{ linha.variacao.estoque }}">
+                        <button class="botao botao--contorno" type="submit">Atualizar</button>
+                    </form>
+                </td>
+                <td class="num">R$ {{ linha.subtotal|floatformat:"2g" }}</td>
+                <td class="num">
+                    <form method="post" action="{% url 'carrinho:remover' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="variacao" value="{{ linha.variacao.id }}">
+                        <button class="link-discreto" type="submit">Remover<span class="sr-only"> {{ linha.produto.nome
+                                }}</span></button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="resumo">
+        <p class="resumo__total">Total: R$ {{ total|floatformat:"2g" }}</p>
+        <div class="resumo__acoes">
+            <a class="botao botao--contorno" href="{% url 'produtos:lista' %}">Continuar comprando</a>
+            <a class="botao" href="{% url 'pedidos:checkout' %}">Finalizar compra</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="vazio">
+        <p>Seu carrinho está vazio.</p>
+        <a class="botao" href="{% url 'produtos:lista' %}">Ver produtos</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

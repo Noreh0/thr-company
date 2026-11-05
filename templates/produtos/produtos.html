@@ -1,14 +1,44 @@
-{% load static %}
+{% extends 'base.html' %}
+{% block titulo %}{% if categoria_atual %}{{ categoria_atual.nome }}{% else %}Produtos{% endif %} - THR Company{%
+endblock %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-</head>
-<body>
-    
-</body>
-</html>
+{% block conteudo %}
+<div class="pagina">
+    <h1>{% if categoria_atual %}{{ categoria_atual.nome }}{% else %}Produtos{% endif %}</h1>
+
+    <ul class="categorias" aria-label="Filtrar por categoria">
+        <li><a class="chip" href="{% url 'produtos:lista' %}" {% if not categoria_atual %} aria-current="true" {% endif
+                %}>Todos</a></li>
+        {% for categoria in categorias %}
+        <li><a class="chip" href="{% url 'produtos:lista' %}?categoria={{ categoria.slug }}" {% if
+                categoria==categoria_atual %} aria-current="true" {% endif %}>{{ categoria.nome }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <form class="busca" method="get" action="{% url 'produtos:lista' %}" role="search">
+        {% if categoria_atual %}<input type="hidden" name="categoria" value="{{ categoria_atual.slug }}">{% endif %}
+        <label class="sr-only" for="q">Buscar produto</label>
+        <input type="search" id="q" name="q" value="{{ busca }}" placeholder="Buscar produto">
+        <button class="botao botao--contorno" type="submit">Buscar</button>
+    </form>
+
+    {% if pagina.object_list %}
+    <ul class="grade">
+        {% for produto in pagina %}{% include 'produtos/_card.html' %}{% endfor %}
+    </ul>
+
+    {% if pagina.has_other_pages %}
+    <nav class="paginacao" aria-label="Páginas">
+        {% if pagina.has_previous %}<a href="{% querystring page=pagina.previous_page_number %}">Anterior</a>{% endif %}
+        <span>Página {{ pagina.number }} de {{ pagina.paginator.num_pages }}</span>
+        {% if pagina.has_next %}<a href="{% querystring page=pagina.next_page_number %}">Próxima</a>{% endif %}
+    </nav>
+    {% endif %}
+    {% else %}
+    <div class="vazio">
+        <p>Nenhum produto encontrado{% if busca %} para "{{ busca }}"{% endif %}.</p>
+        <a class="botao botao--contorno" href="{% url 'produtos:lista' %}">Limpar filtros</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

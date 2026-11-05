@@ -51,6 +51,7 @@ class Variacao(models.Model):
     estoque = models.PositiveIntegerField(default=0)
 
     class Meta:
+        ordering = ['id']
         constraints = [
             models.UniqueConstraint(fields=['produto', 'tamanho', 'cor'], name='variacao_unica'),
         ]

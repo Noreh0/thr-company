@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}THR Control{% if subtitle %} | {{ subtitle }}{% endif %}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+    <a href="{% url 'admin:index' %}" aria-label="THR Control - início">
+        <strong>THR</strong><span>CONTROL</span>
+    </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block titulo %}Criar conta - THR Company{% endblock %}
+
+{% block conteudo %}
+<div class="pagina caixa">
+    <h1>Criar conta</h1>
+    <p class="explicacao">Usamos seu WhatsApp para falar sobre o pedido.</p>
+
+    <form method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        {% if form.non_field_errors %}
+        <div class="erro-geral" role="alert">{{ form.non_field_errors.0 }}</div>
+        {% endif %}
+        {% for campo in form %}
+        <div class="campo">
+            <label for="{{ campo.id_for_label }}">{{ campo.label }}</label>
+            {{ campo }}
+            {% for erro in campo.errors %}<p class="erro" role="alert">{{ erro }}</p>{% endfor %}
+            {% if campo.help_text %}<div class="campo__ajuda">{{ campo.help_text|safe }}</div>{% endif %}
+        </div>
+        {% endfor %}
+        <button class="botao botao--cheio" type="submit">Criar conta</button>
+    </form>
+
+    <p class="troca">Já tem conta? <a
+            href="{% url 'usuarios:login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">Entrar</a></p>
+</div>
+{% endblock %}

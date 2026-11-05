@@ -1,8 +1,12 @@
-from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.db import models
+
 
 class Usuario(AbstractUser):
-    telefone = models.CharField(max_length = 20)
+    """Usuário do site. Herda nome, e-mail, senha (já com hash),
+    is_staff (acesso ao admin) e is_superuser do Django."""
+
+    telefone = models.CharField(max_length=20)
     email = models.EmailField(unique=True)
 
     def __str__(self):

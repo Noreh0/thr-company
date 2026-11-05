@@ -1,0 +1,15 @@
+<li class="card">
+    <a class="card__link" href="{% url 'produtos:detalhe' produto.slug %}">
+        <div class="card__foto">
+            {% if produto.imagem %}
+                <img src="{{ produto.imagem.url }}" alt="{{ produto.nome }}" loading="lazy">
+            {% else %}
+                <div class="sem-foto" aria-hidden="true">{{ produto.categoria.nome }}</div>
+            {% endif %}
+        </div>
+        <div class="card__info">
+            <h3 class="card__nome">{{ produto.nome }}</h3>
+            <p class="card__preco">R$ {{ produto.preco|floatformat:"2g" }}</p>
+        </div>
+    </a>
+</li>
