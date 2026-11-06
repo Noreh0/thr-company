@@ -19,19 +19,15 @@
             {% for linha in linhas %}
             <tr>
                 <td>
-                    <a class="item-nome" href="{% url 'produtos:detalhe' linha.produto.slug %}">{{ linha.produto.nome
-                        }}</a>
-                    <span class="item-detalhe">Tamanho {{ linha.variacao.tamanho }}, R$ {{
-                        linha.produto.preco|floatformat:"2g" }} cada</span>
+                    <a class="item-nome" href="{% url 'produtos:detalhe' linha.produto.slug %}">{{ linha.produto.nome }}</a>
+                    <span class="item-detalhe">Tamanho {{ linha.variacao.tamanho }}, R$ {{ linha.produto.preco|floatformat:"2g" }} cada</span>
                 </td>
                 <td>
                     <form class="form-qtd" method="post" action="{% url 'carrinho:atualizar' %}">
                         {% csrf_token %}
                         <input type="hidden" name="variacao" value="{{ linha.variacao.id }}">
-                        <label class="sr-only" for="qtd-{{ linha.variacao.id }}">Quantidade de {{ linha.produto.nome
-                            }}</label>
-                        <input type="number" id="qtd-{{ linha.variacao.id }}" name="quantidade"
-                            value="{{ linha.quantidade }}" min="1" max="{{ linha.variacao.estoque }}">
+                        <label class="sr-only" for="qtd-{{ linha.variacao.id }}">Quantidade de {{ linha.produto.nome }}</label>
+                        <input type="number" id="qtd-{{ linha.variacao.id }}" name="quantidade" value="{{ linha.quantidade }}" min="1" max="{{ linha.variacao.estoque }}">
                         <button class="botao botao--contorno" type="submit">Atualizar</button>
                     </form>
                 </td>
@@ -40,8 +36,7 @@
                     <form method="post" action="{% url 'carrinho:remover' %}">
                         {% csrf_token %}
                         <input type="hidden" name="variacao" value="{{ linha.variacao.id }}">
-                        <button class="link-discreto" type="submit">Remover<span class="sr-only"> {{ linha.produto.nome
-                                }}</span></button>
+                        <button class="link-discreto" type="submit">Remover<span class="sr-only"> {{ linha.produto.nome }}</span></button>
                     </form>
                 </td>
             </tr>

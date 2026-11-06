@@ -1,17 +1,15 @@
 {% extends 'base.html' %}
-{% block titulo %}{% if categoria_atual %}{{ categoria_atual.nome }}{% else %}Produtos{% endif %} - THR Company{%
-endblock %}
+{% block titulo %}{% if categoria_atual %}{{ categoria_atual.nome }}{% else %}Produtos{% endif %} - THR Company{%endblock %}
 
 {% block conteudo %}
 <div class="pagina">
     <h1>{% if categoria_atual %}{{ categoria_atual.nome }}{% else %}Produtos{% endif %}</h1>
 
     <ul class="categorias" aria-label="Filtrar por categoria">
-        <li><a class="chip" href="{% url 'produtos:lista' %}" {% if not categoria_atual %} aria-current="true" {% endif
-                %}>Todos</a></li>
+        <li><a class="chip" href="{% url 'produtos:lista' %}" {% if not categoria_atual %} aria-current="true" {% endif %}>Todos</a></li>
         {% for categoria in categorias %}
-        <li><a class="chip" href="{% url 'produtos:lista' %}?categoria={{ categoria.slug }}" {% if
-                categoria==categoria_atual %} aria-current="true" {% endif %}>{{ categoria.nome }}</a></li>
+        <li><a class="chip" href="{% url 'produtos:lista' %}?categoria={{ categoria.slug }}" 
+            {% if categoria == categoria_atual %} aria-current="true" {% endif %}>{{ categoria.nome }}</a></li>
         {% endfor %}
     </ul>
 

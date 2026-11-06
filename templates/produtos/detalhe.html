@@ -29,10 +29,8 @@
                 <div class="tamanhos__lista">
                     {% for v in variacoes %}
                     <label class="tamanho">
-                        <input type="radio" name="variacao" value="{{ v.id }}" required {% if v.estoque <=0 %}disabled{%
-                            endif %}>
-                        <span>{{ v.tamanho }}{% if v.cor %} {{ v.cor }}{% endif %}<span class="sr-only">{% if v.estoque
-                                <= 0 %} (esgotado){% endif %}</span></span>
+                        <input type="radio" name="variacao" value="{{ v.id }}" required {% if v.estoque <= 0 %}disabled{% endif %}>
+                        <span>{{ v.tamanho }}{% if v.cor %} {{ v.cor }}{% endif %}<span class="sr-only">{% if v.estoque <= 0 %} (esgotado){% endif %}</span></span>
                     </label>
                     {% endfor %}
                 </div>

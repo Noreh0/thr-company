@@ -32,8 +32,7 @@
                 {% endif %}
                 <a class="nav__carrinho" href="{% url 'carrinho:ver' %}">
                     Carrinho
-                    {% if carrinho_qtd %}<span class="contador" aria-label="{{ carrinho_qtd }} item(ns) no carrinho">{{
-                        carrinho_qtd }}</span>{% endif %}
+                    {% if carrinho_qtd %}<span class="contador" aria-label="{{ carrinho_qtd }} item(ns) no carrinho">{{ carrinho_qtd }}</span>{% endif %}
                 </a>
             </nav>
         </div>
